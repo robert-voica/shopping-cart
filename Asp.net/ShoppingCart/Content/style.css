@@ -1,0 +1,30 @@
+﻿html {
+    height: 100%;
+}
+
+html,
+body {
+    box-sizing: border-box;
+    min-height: 100%;
+    margin: 0px;
+}
+
+body {
+    padding: 50px;
+    width: 1000px;
+    margin: 0px auto;
+    border: 1px solid #C0C0C0;
+    border-top: none;
+    border-bottom: none;
+}
+
+@media print {
+    body {
+        border: none;
+        padding: 0px;
+    }
+
+    .no-print {
+        display: none;
+    }
+}

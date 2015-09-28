@@ -1,0 +1,206 @@
+﻿@{
+    this.Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping cart</title>
+    <script src="@Url.Content("~/Scripts/webcomponentsjs/webcomponents.js")"></script>
+    <script>
+        window.Polymer = window.Polymer || {};
+        window.Polymer.dom = "shadow";
+    </script>
+    <link rel="import" href="@Url.Content("~/Scripts/polymer/polymer.html")" />
+    <link rel="import" href="@Url.Content("~/Scripts/iron-ajax/iron-ajax.html")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootswatch/paper/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/style.css")" />
+</head>
+<body>
+    <script type="text/html" id="scrProducts">@Html.Raw(ViewBag.ProductsJson)</script>
+    <template is="dom-bind" id="root">
+        <template is="dom-if" if="{{!model.OrderComplete}}">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <h4>New order</h4>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Order date:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Your name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Customer::change}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Shipping address:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Address::change}}" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template is="dom-repeat" items="{{model.Order.OrderItems}}">
+                                    <tr>
+                                        <td class="td-number">
+                                            <span>{{index}}</span>
+                                        </td>
+                                        <td class="td-product">
+                                            <select value="{{item.Product::change}}" class="form-control input-sm" on-change="ProductSelected">
+                                                <option></option>
+                                                <template is="dom-repeat" items="{{model.Products}}">
+                                                    <option value="{{item.Name}}">{{GetFullProductName(item.Name, item.Price)}}</option>
+                                                </template>
+                                            </select>
+                                        </td>
+                                        <td class="td-price">
+                                            <input type="text" readonly value="{{item.Price}}" class="form-control input-sm" />
+                                        </td>
+                                        <td class="td-quantity">
+                                            <input type="number" value="{{item.Quantity::change}}" class="form-control input-sm" on-change="RefreshTotalAmount" />
+                                        </td>
+                                        <td class="td-amount">
+                                            <input type="text" readonly value="{{GetTotalAmount(item.Quantity, item.Price)}}" class="form-control input-sm" />
+                                        </td>
+                                        <td class="td-actions">
+                                            <button type="button" class="btn btn-xs btn-default" on-click="DeleteOrderItem">Delete</button>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <strong>Total amount:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{GetTotalOrderAmount(model.Order.OrderItems, model.Order.OrderItemsCounter)}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <template is="dom-if" if="{{model.Messages.length}}">
+                            <div class="alert alert-danger">
+                                <template is="dom-repeat" items="{{model.Messages}}">
+                                    <div>{{item}}</div>
+                                </template>
+                            </div>
+                        </template>
+                        <button type="button" class="btn btn-primary btn-sm" on-click="SubmitOrder">Submit order</button>
+                        <button type="button" class="btn btn-default btn-sm" on-click="CancelOrder">Cancel order</button>
+                        <button type="button" class="btn btn-default btn-sm" on-click="AddOrderItem">Add item</button>
+                    </div>
+                </div>
+            </form>
+        </template>
+        <template is="dom-if" if="{{model.OrderComplete}}">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <h4>Your order</h4>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Order date:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Your name:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Customer}}" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Shipping address:</label>
+                    <div class="col-sm-10">
+                        <input type="text" value="{{model.Order.Address}}" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <table class="table table-bordered table-stripped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template is="dom-repeat" items="{{model.Order.OrderItems}}">
+                                    <tr>
+                                        <td class="td-number">
+                                            <span>{{index}}</span>
+                                        </td>
+                                        <td class="td-product">
+                                            <span>{{item.Product}}</span>
+                                        </td>
+                                        <td class="td-price">
+                                            <span>{{item.Price}}</span>
+                                        </td>
+                                        <td class="td-quantity">
+                                            <span>{{item.Quantity}}</span>
+                                        </td>
+                                        <td class="td-amount">
+                                            <span>{{GetTotalAmount(item.Quantity, item.Price)}}</span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <strong>Total amount:</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{GetTotalOrderAmount(model.Order.OrderItems, model.Order.OrderItemsCounter)}}</strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group no-print">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <button type="button" class="btn btn-default btn-sm" onclick="window.print();">Print order</button>
+                        <button type="button" class="btn btn-default btn-sm" on-click="CreateNewOrder">New order</button>
+                    </div>
+                </div>
+            </form>
+        </template>
+        <iron-ajax content-type="application/json" url="@Url.Content("~/Home/Submit")" handle-as="json" method="POST" body="{{model.Order}}" on-response="OrderSubmited"></iron-ajax>
+    </template>
+    <script src="@Url.Content("~/Scripts/Views/Home/Index.js")"></script>
+</body>
+</html>
