@@ -13,6 +13,8 @@ Follow these steps to build and run Starcounter example
 
 ### How to run ASP.NET MVC example
 
+Follow these steps to build and run asp.net mvc example
+
 - Download and install Microsoft SQL express 2014.
 - Restore database from `/Asp.net/shopping-cart-db.zip` archive.
 - Ensure that connection string in `/Asp.net/ShoppingCart/web.config` is correct.
