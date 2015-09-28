@@ -9,7 +9,7 @@ Follow these steps to build and run Starcounter example
 - Open `/Starcounter/ShoppingCart.sln` solution in Visual Studio 2012/2013/2015.
 - Make sure that the Working directory of the solution points to the `/Starcounter/ShoppingCart/wwwroot` folder. Read more here: https://github.com/Starcounter/Starcounter/wiki/Using-the-internal-web-server
 - Press `Ctrl + F5` to build and start solution.
-- Navigate to `http://localhost:8080/shoppingcart` to see how the application works.
+- Navigate to http://localhost:8080/shoppingcart to see how the application works.
 
 ### How to run ASP.NET MVC example
 
