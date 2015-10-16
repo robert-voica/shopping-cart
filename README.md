@@ -23,7 +23,12 @@ Follow these steps to build and run ASP.NET MVC example
 - Press `Ctrl + F5` to build and start application.
 - The application should start in your default browser. Open the URL in Google Chrome, if it is not your default browser.
 
+### Browser supported
+
+These code samples use [WebComponents](http://webcomponents.org/), [Shadow DOM](http://w3c.github.io/webcomponents/spec/shadow/), and [Object.observe](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe) with [Polymer 1.1](https://www.polymer-project.org/1.0/) as JavaScript framework.
+
+To make it all work in Firefox and Internet Explorer I have to add Object.observe, Array.observe shims, replace table tags with divs, write my own `sc-select` component to workaround `dom-repeat` [issue](https://github.com/Polymer/polymer/issues/1567) in Internet Explorer.
+
 ### Notes
 
-- These code samples use [WebComponents](http://webcomponents.org/), [Shadow DOM](http://w3c.github.io/webcomponents/spec/shadow/), and [Object.observe](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/observe) with [Polymer 1.1](https://www.polymer-project.org/1.0/) as JavaScript framework. So far these features are supported by [Google Chrome](https://www.google.com/chrome/) only.
 - The ASP.NET MVC example should also work in Vistual Studio 2012/2015, but was not tested.
