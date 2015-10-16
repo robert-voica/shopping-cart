@@ -78,7 +78,7 @@
                                                 <span>{{index}}</span>
                                             </div>
                                             <div class="td td-product">
-                                                <select is="sc-select" value="{{item.Product$::change}}" class="form-control input-sm" options="{{getOptions(model.Products)}}"></select>
+                                                <select is="sc-select" value="{{item.Product$::change}}" class="form-control input-sm" options="{{GetOptions(model.Products)}}"></select>
                                             </div>
                                             <div class="td td-price">
                                                 <input type="text" readonly value="{{item.Price}}" class="form-control input-sm" />
@@ -99,7 +99,7 @@
                             <div class="table">
                                 <div class="tfoot">
                                     <div class="tr">
-                                        <div class="td" colspan="5">
+                                        <div class="td">
                                             <strong>Total amount:</strong>
                                         </div>
                                         <div class="td td-actions">
@@ -191,7 +191,7 @@
                             <div class="table">
                                 <div class="tfoot">
                                     <div class="tr">
-                                        <div class="td" colspan="4">
+                                        <div class="td">
                                             <strong>Total amount:</strong>
                                         </div>
                                         <div class="td td-amount">
@@ -217,7 +217,7 @@
             (function () {
                 var template = (document._currentScript || document.currentScript).previousElementSibling;
 
-                template.getOptions = function () {
+                template.GetOptions = function () {
                     var options = [];
 
                     for (var i = 0; i < template.model.Products.length; i++) {
