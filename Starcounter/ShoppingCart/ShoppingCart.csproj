@@ -74,6 +74,7 @@
   <ItemGroup>
     <Content Include="wwwroot\favicon.ico" />
     <Content Include="wwwroot\IndexPage.html" />
+    <Content Include="wwwroot\sc-select.html" />
     <Content Include="wwwroot\style.css" />
   </ItemGroup>
   <ItemGroup>
