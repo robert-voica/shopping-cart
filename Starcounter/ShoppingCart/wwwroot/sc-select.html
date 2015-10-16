@@ -1,0 +1,31 @@
+﻿<dom-module id="sc-select">
+    <template></template>
+    <script>
+        Polymer({
+            is: "sc-select",
+            extends: "select",
+            properties: {
+                options: { type: Array, value: [], observer: "generateOptions" },
+                caption: { type: String, value: " ", observer: "generateOptions" },
+                valueField: { type: String, value: "value", observer: "generateOptions" },
+                textField: { type: String, value: "text", observer: "generateOptions" }
+            },
+            generateOptions: function () {
+                var value = this.value;
+                var html = [];
+
+                if (this.caption) {
+                    html.push("<option>", this.caption, "</option>");
+                }
+
+                for (var i = 0; i < this.options.length; i++) {
+                    var o = this.options[i];
+
+                    html.push("<option value='", o[this.valueField], "'>", o[this.textField], "</option>");
+                }
+
+                this.innerHTML = html.join("");
+            }
+        });
+    </script>
+</dom-module>

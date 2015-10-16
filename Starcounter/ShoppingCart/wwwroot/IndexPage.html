@@ -3,214 +3,237 @@
 <head>
     <title>Shopping cart</title>
 
-    <script src="http://juicy.github.io/object.observe/dist/object-observe.js"></script>
-    <script src="http://juicy.github.io/array.observe/array-observe.js"></script>
+    <!-- Object.observe & Array.observe shims for IE and FF -->
+    <script src="/sys/object.observe/dist/object-observe.js"></script>
+    <script src="/sys/array.observe/array-observe.js"></script>
 
+    <!-- WebComponents shim for IE and FF -->
     <script src="/sys/webcomponentsjs/webcomponents.js"></script>
-    <script>
-        window.Polymer = window.Polymer || {};
-        window.Polymer.dom = "shadow";
-    </script>
+
+    <!-- Import Polymer library -->
     <link rel="import" href="/sys/polymer/polymer.html" />
+
+    <!-- puppet-client element to synchronize view-model with json patches -->
     <link rel="import" href="/sys/puppet-client/puppet-client.html" />
+
+    <!-- dom-bind-notifier element to notify Polymer about all changes in the view-model -->
     <link rel="import" href="/sys/dom-bind-notifier/dom-bind-notifier.html" />
+
+    <!-- sc-select custom element to workaround lack of dom-repeat support inside <select> under IE -->
+    <link rel="import" href="/sc-select.html" />
+
+    <!-- Default styles -->
     <link rel="import" href="/sys/bootstrap.html" />
-    <link href="/style.css" rel="stylesheet" />
+
+    <!-- Local styles -->
+    <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-    <template is="dom-bind" id="root">
-        <template is="dom-if" if="{{!model.OrderComplete}}">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <h4>New order</h4>
+    <div id="body">
+        <template is="dom-bind" id="root">
+            <template is="dom-if" if="{{!model.OrderComplete}}">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <h4>New order</h4>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Order date:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Order date:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Your name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Customer$::change}}" class="form-control" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Your name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Customer$::change}}" class="form-control" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Shipping address:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Address$::change}}" class="form-control" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Shipping address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Address$::change}}" class="form-control" />
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <table class="table table-bordered table-stripped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total amount</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template is="dom-repeat" items="{{model.Order.OrderItems}}">
-                                    <tr>
-                                        <td class="td-number">
-                                            <span>{{index}}</span>
-                                        </td>
-                                        <td class="td-product">
-                                            <select value="{{item.Product$::change}}" class="form-control input-sm">
-                                                <option></option>
-                                                <template is="dom-repeat" items="{{model.Products}}">
-                                                    <option value="{{item.Name}}">{{GetFullProductName(item.Name, item.Price)}}</option>
-                                                </template>
-                                            </select>
-                                        </td>
-                                        <td class="td-price">
-                                            <input type="text" readonly value="{{item.Price}}" class="form-control input-sm" />
-                                        </td>
-                                        <td class="td-quantity">
-                                            <input type="number" value="{{item.Quantity$::change}}" class="form-control input-sm" />
-                                        </td>
-                                        <td class="td-amount">
-                                            <input type="text" readonly value="{{item.TotalAmount}}" class="form-control input-sm" />
-                                        </td>
-                                        <td class="td-actions">
-                                            <button type="button" class="btn btn-xs btn-default" value="{{item.DeleteClick$::click}}" onclick="++this.value;">Delete</button>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5">
-                                        <strong>Total amount:</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{model.Order.TotalAmount}}</strong>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <template is="dom-if" if="{{model.Messages.length}}">
-                            <div class="alert alert-danger">
-                                <template is="dom-repeat" items="{{model.Messages}}">
-                                    <div>{{item}}</div>
-                                </template>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <div class="table table-bordered table-stripped">
+                                <div class="thead">
+                                    <div class="tr">
+                                        <div class="th">#</div>
+                                        <div class="th">Product</div>
+                                        <div class="th">Price</div>
+                                        <div class="th">Quantity</div>
+                                        <div class="th">Total amount</div>
+                                        <div class="th td-actions"></div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <template is="dom-repeat" items="{{model.Order.OrderItems}}">
+                                        <div class="tr">
+                                            <div class="td td-number">
+                                                <span>{{index}}</span>
+                                            </div>
+                                            <div class="td td-product">
+                                                <select is="sc-select" value="{{item.Product$::change}}" class="form-control input-sm" options="{{getOptions(model.Products)}}"></select>
+                                            </div>
+                                            <div class="td td-price">
+                                                <input type="text" readonly value="{{item.Price}}" class="form-control input-sm" />
+                                            </div>
+                                            <div class="td td-quantity">
+                                                <input type="text" value="{{item.Quantity$::change}}" class="form-control input-sm" />
+                                            </div>
+                                            <div class="td td-amount">
+                                                <input type="text" readonly value="{{item.TotalAmount}}" class="form-control input-sm" />
+                                            </div>
+                                            <div class="td td-actions">
+                                                <button type="button" class="btn btn-xs btn-default" value="{{item.DeleteClick$::click}}" onmousedown="++this.value;">Delete</button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
-                        </template>
-                        <button type="button" class="btn btn-primary btn-sm" value="{{model.SubmitOrderClick$::click}}" onclick="++this.value;">Submit order</button>
-                        <button type="button" class="btn btn-default btn-sm" value="{{model.CancelOrderClick$::click}}" onclick="++this.value;">Cancel order</button>
-                        <button type="button" class="btn btn-default btn-sm" value="{{model.AddOrderItemClick$::click}}" onclick="++this.value;">Add item</button>
+                            <div class="table">
+                                <div class="tfoot">
+                                    <div class="tr">
+                                        <div class="td" colspan="5">
+                                            <strong>Total amount:</strong>
+                                        </div>
+                                        <div class="td td-actions">
+                                            <strong>{{model.Order.TotalAmount}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <template is="dom-if" if="{{model.Messages.length}}">
+                                <div class="alert alert-danger">
+                                    <template is="dom-repeat" items="{{model.Messages}}">
+                                        <div>{{item}}</div>
+                                    </template>
+                                </div>
+                            </template>
+                            <button type="button" class="btn btn-primary btn-sm" value="{{model.SubmitOrderClick$::click}}" onmousedown="++this.value;">Submit order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.CancelOrderClick$::click}}" onmousedown="++this.value;">Cancel order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.AddOrderItemClick$::click}}" onmousedown="++this.value;">Add item</button>
+                        </div>
+                    </div>
+                </form>
+            </template>
+            <template is="dom-if" if="{{model.OrderComplete}}">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <h4>Your order</h4>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Order date:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Your name:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Customer$}}" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Shipping address:</label>
+                        <div class="col-sm-10">
+                            <input type="text" value="{{model.Order.Address$}}" class="form-control" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <div class="table table-bordered table-stripped">
+                                <div class="thead">
+                                    <div class="tr">
+                                        <div class="th">#</div>
+                                        <div class="th">Product</div>
+                                        <div class="th">Price</div>
+                                        <div class="th">Quantity</div>
+                                        <div class="th td-amount">Total amount</div>
+                                    </div>
+                                </div>
+                                <div class="tbody">
+                                    <template is="dom-repeat" items="{{model.Order.OrderItems}}">
+                                        <div class="tr">
+                                            <div class="td td-number">
+                                                <span>{{index}}</span>
+                                            </div>
+                                            <div class="td td-product">
+                                                <span>{{item.Product$}}</span>
+                                            </div>
+                                            <div class="td td-price">
+                                                <span>{{item.Price}}</span>
+                                            </div>
+                                            <div class="td td-quantity">
+                                                <span>{{item.Quantity$}}</span>
+                                            </div>
+                                            <div class="td td-amount">
+                                                <span>{{item.TotalAmount}}</span>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="table">
+                                <div class="tfoot">
+                                    <div class="tr">
+                                        <div class="td" colspan="4">
+                                            <strong>Total amount:</strong>
+                                        </div>
+                                        <div class="td td-amount">
+                                            <strong>{{model.Order.TotalAmount}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group no-print">
+                        <label class="col-sm-2 control-label"></label>
+                        <div class="col-sm-10">
+                            <button type="button" class="btn btn-default btn-sm" onclick="window.print();">Print order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.NewOrderClick$::click}}" onmousedown="++this.value;">New order</button>
+                        </div>
+                    </div>
+                </form>
+            </template>
+            <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
         </template>
-        <template is="dom-if" if="{{model.OrderComplete}}">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <h4>Your order</h4>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Order date:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Your name:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Customer$}}" class="form-control" readonly />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Shipping address:</label>
-                    <div class="col-sm-10">
-                        <input type="text" value="{{model.Order.Address$}}" class="form-control" readonly />
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <table class="table table-bordered table-stripped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template is="dom-repeat" items="{{model.Order.OrderItems}}">
-                                    <tr>
-                                        <td class="td-number">
-                                            <span>{{index}}</span>
-                                        </td>
-                                        <td class="td-product">
-                                            <span>{{item.Product$}}</span>
-                                        </td>
-                                        <td class="td-price">
-                                            <span>{{item.Price}}</span>
-                                        </td>
-                                        <td class="td-quantity">
-                                            <span>{{item.Quantity$}}</span>
-                                        </td>
-                                        <td class="td-amount">
-                                            <span>{{item.TotalAmount}}</span>
-                                        </td>
-                                    </tr>
-                                </template>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="4">
-                                        <strong>Total amount:</strong>
-                                    </td>
-                                    <td>
-                                        <strong>{{model.Order.TotalAmount}}</strong>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <div class="form-group no-print">
-                    <label class="col-sm-2 control-label"></label>
-                    <div class="col-sm-10">
-                        <button type="button" class="btn btn-default btn-sm" onclick="window.print();">Print order</button>
-                        <button type="button" class="btn btn-default btn-sm" value="{{model.NewOrderClick$::click}}" onclick="++this.value;">New order</button>
-                    </div>
-                </div>
-            </form>
-        </template>
-        <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
-    </template>
-    <script>
-        (function () {
-            var template = (document._currentScript || document.currentScript).previousElementSibling;
+        <script>
+            (function () {
+                var template = (document._currentScript || document.currentScript).previousElementSibling;
 
-            template.GetFullProductName = function (name, price) {
-                return [name, " - $", price].join("");
-            };
-        })();
-    </script>
+                template.getOptions = function () {
+                    var options = [];
+
+                    for (var i = 0; i < template.model.Products.length; i++) {
+                        var p = template.model.Products[i];
+
+                        options.push({
+                            text: p.Name,
+                            value: p.Name
+                        });
+                    }
+
+                    return options;
+                };
+            })();
+        </script>
+    </div>
     <puppet-client usewebsocket="false" ref="root"></puppet-client>
 </body>
 </html>
