@@ -1,0 +1,28 @@
+{
+  "name": "ShoppingCart",
+  "version": "0.0.0",
+  "homepage": "https://github.com/miyconst/shopping-cart",
+  "authors": [
+    "Konstantin <const.miyang@gmail.com>"
+  ],
+  "description": "Starcounter sample application",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "Starcounter",
+    "Polymer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "wwwroot/sys",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "object.observe": "miyconst/object-observe#master",
+    "array.observe": "MaxArt2501/array-observe#~0.0.1"
+  }
+}
