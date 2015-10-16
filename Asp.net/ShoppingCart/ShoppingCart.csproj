@@ -168,23 +168,24 @@
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\polymer\LICENSE.txt" />
-    <Content Include="Scripts\polymer\polymer-micro.html" />
-    <Content Include="Scripts\polymer\polymer-mini.html" />
-    <Content Include="Scripts\polymer\polymer.html" />
+    <Content Include="Scripts\sc-select.html" />
+    <Content Include="sys\polymer\LICENSE.txt" />
+    <Content Include="sys\polymer\polymer-micro.html" />
+    <Content Include="sys\polymer\polymer-mini.html" />
+    <Content Include="sys\polymer\polymer.html" />
     <Content Include="Scripts\Views\Home\Index.js" />
-    <Content Include="Scripts\webcomponentsjs\CustomElements.js" />
-    <Content Include="Scripts\webcomponentsjs\CustomElements.min.js" />
-    <Content Include="Scripts\webcomponentsjs\HTMLImports.js" />
-    <Content Include="Scripts\webcomponentsjs\HTMLImports.min.js" />
-    <Content Include="Scripts\webcomponentsjs\MutationObserver.js" />
-    <Content Include="Scripts\webcomponentsjs\MutationObserver.min.js" />
-    <Content Include="Scripts\webcomponentsjs\ShadowDOM.js" />
-    <Content Include="Scripts\webcomponentsjs\ShadowDOM.min.js" />
-    <Content Include="Scripts\webcomponentsjs\webcomponents-lite.js" />
-    <Content Include="Scripts\webcomponentsjs\webcomponents-lite.min.js" />
-    <Content Include="Scripts\webcomponentsjs\webcomponents.js" />
-    <Content Include="Scripts\webcomponentsjs\webcomponents.min.js" />
+    <Content Include="sys\webcomponentsjs\CustomElements.js" />
+    <Content Include="sys\webcomponentsjs\CustomElements.min.js" />
+    <Content Include="sys\webcomponentsjs\HTMLImports.js" />
+    <Content Include="sys\webcomponentsjs\HTMLImports.min.js" />
+    <Content Include="sys\webcomponentsjs\MutationObserver.js" />
+    <Content Include="sys\webcomponentsjs\MutationObserver.min.js" />
+    <Content Include="sys\webcomponentsjs\ShadowDOM.js" />
+    <Content Include="sys\webcomponentsjs\ShadowDOM.min.js" />
+    <Content Include="sys\webcomponentsjs\webcomponents-lite.js" />
+    <Content Include="sys\webcomponentsjs\webcomponents-lite.min.js" />
+    <Content Include="sys\webcomponentsjs\webcomponents.js" />
+    <Content Include="sys\webcomponentsjs\webcomponents.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -215,11 +216,11 @@
     <Content Include="Content\bootswatch\paper\_variables.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\webcomponentsjs\build.log" />
-    <Content Include="Scripts\webcomponentsjs\README.md" />
+    <Content Include="sys\webcomponentsjs\build.log" />
+    <Content Include="sys\webcomponentsjs\README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\polymer\build.log" />
+    <Content Include="sys\polymer\build.log" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

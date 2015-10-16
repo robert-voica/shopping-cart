@@ -22,6 +22,7 @@
 
     template.CreateNewOrder = function () {
         template.set("model.Order", new Order());
+        template.set("model.OrderComplete", false);
     };
 
     template.DeleteOrderItem = function (e, i) {
@@ -44,6 +45,11 @@
     template.OrderSubmited = function (e, request) {
         var response = request.xhr.response;
 
+        // IE "feature", the response is a string instead of object
+        if (typeof (response) == "string") {
+            response = JSON.parse(response);
+        }
+
         if (response.Success) {
             template.set("model.OrderComplete", true);
         } else {
@@ -52,6 +58,10 @@
     };
 
     template.GetTotalAmount = function (price, quantity) {
+        if (isNaN(parseInt(quantity))) {
+            quantity = 0;
+        }
+
         if (!price || !quantity) {
             return 0;
         }
@@ -63,7 +73,14 @@
         var amount = 0;
 
         for (var i = 0, l = items.length; i < l; i++) {
-            amount += template.GetTotalAmount(items[i].Price, items[i].Quantity);
+            var q = items[i].Quantity;
+
+            if (isNaN(parseInt(q))) {
+                q = 1;
+                template.set("model.Order.OrderItems." + i + ".Quantity", q);
+            }
+
+            amount += template.GetTotalAmount(items[i].Price, q);
         }
 
         return amount;
@@ -98,7 +115,22 @@
 
     template.RefreshTotalAmount = function () {
         template.set("model.Order.OrderItemsCounter", template.model.Order.OrderItemsCounter + 1);
-    }
+    };
+
+    template.GetOptions = function () {
+        var options = [];
+
+        for (var i = 0; i < template.model.Products.length; i++) {
+            var p = template.model.Products[i];
+
+            options.push({
+                text: p.Name,
+                value: p.Name
+            });
+        }
+
+        return options;
+    };
 
     template.model = new Model();
-})(document.currentScript.previousElementSibling);
+})((document._currentScript || document.currentScript).previousElementSibling);
