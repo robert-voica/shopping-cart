@@ -1,21 +1,83 @@
-﻿html {
-    height: 100%;
-}
-
-html,
+﻿html,
 body {
     box-sizing: border-box;
     min-height: 100%;
     margin: 0px;
+    padding: 0px;
 }
 
-body {
-    padding: 50px;
+#body {
     width: 1000px;
     margin: 0px auto;
+    padding: 50px;
     border: 1px solid #C0C0C0;
     border-top: none;
     border-bottom: none;
+    min-height: 100vh;
+}
+
+div.table {
+    display: table;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+div.table + div.table {
+    margin-top: -24px;
+}
+
+div.table div.thead {
+    display: table-header-group;
+}
+
+div.table div.tr {
+    display: table-row;
+}
+
+div.table div.th,
+div.table div.td {
+    display: table-cell;
+}
+
+div.table div.th {
+    border-top: 0;
+    border-bottom-width: 2px;
+    border: 1px solid #dddddd;
+    vertical-align: bottom;
+    border-bottom: 2px solid #dddddd;
+    padding: 8px;
+    line-height: 1.846;
+    text-align: left;
+    font-weight: bold;
+}
+
+div.table div.td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    line-height: 1.846;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+    box-sizing: border-box;
+}
+
+div.table div.tbody {
+    display: table-row-group;
+}
+
+div.table div.tfoot {
+    display: table-footer-group;
+}
+
+div.table div.td-actions {
+    width: 70px;
+    max-width: 70px;
+    min-width: 70px;
+}
+
+div.table div.td-amount {
+    width: 120px;
+    max-width: 120px;
+    min-width: 120px;
 }
 
 @media print {
