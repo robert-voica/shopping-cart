@@ -3,10 +3,6 @@
 <head>
     <title>Shopping cart</title>
 
-    <!-- Object.observe & Array.observe shims for IE and FF -->
-    <script src="/sys/object.observe/dist/object-observe.js"></script>
-    <script src="/sys/array.observe/array-observe.js"></script>
-
     <!-- WebComponents shim for IE and FF -->
     <script src="/sys/webcomponentsjs/webcomponents.js"></script>
 
@@ -15,9 +11,6 @@
 
     <!-- puppet-client element to synchronize view-model with json patches -->
     <link rel="import" href="/sys/puppet-client/puppet-client.html" />
-
-    <!-- dom-bind-notifier element to notify Polymer about all changes in the view-model -->
-    <link rel="import" href="/sys/dom-bind-notifier/dom-bind-notifier.html" />
 
     <!-- sc-select custom element to workaround lack of dom-repeat support inside <select> under IE -->
     <link rel="import" href="/sc-select.html" />
@@ -90,7 +83,7 @@
                                                 <input type="text" readonly value="{{item.TotalAmount}}" class="form-control input-sm" />
                                             </div>
                                             <div class="td td-actions">
-                                                <button type="button" class="btn btn-xs btn-default" value="{{item.DeleteClick$::click}}" onmousedown="++this.value;">Delete</button>
+                                                <button type="button" class="btn btn-xs btn-default" value="{{item.DeleteClick$::click}}" onmouseup="++this.value;">Delete</button>
                                             </div>
                                         </div>
                                     </template>
@@ -120,9 +113,9 @@
                                     </template>
                                 </div>
                             </template>
-                            <button type="button" class="btn btn-primary btn-sm" value="{{model.SubmitOrderClick$::click}}" onmousedown="++this.value;">Submit order</button>
-                            <button type="button" class="btn btn-default btn-sm" value="{{model.CancelOrderClick$::click}}" onmousedown="++this.value;">Cancel order</button>
-                            <button type="button" class="btn btn-default btn-sm" value="{{model.AddOrderItemClick$::click}}" onmousedown="++this.value;">Add item</button>
+                            <button type="button" class="btn btn-primary btn-sm" value="{{model.SubmitOrderClick$::click}}" onmouseup="++this.value;">Submit order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.CancelOrderClick$::click}}" onmouseup="++this.value;">Cancel order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.AddOrderItemClick$::click}}" onmouseup="++this.value;">Add item</button>
                         </div>
                     </div>
                 </form>
@@ -206,7 +199,7 @@
                         <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <button type="button" class="btn btn-default btn-sm" onclick="window.print();">Print order</button>
-                            <button type="button" class="btn btn-default btn-sm" value="{{model.NewOrderClick$::click}}" onmousedown="++this.value;">New order</button>
+                            <button type="button" class="btn btn-default btn-sm" value="{{model.NewOrderClick$::click}}" onmouseup="++this.value;">New order</button>
                         </div>
                     </div>
                 </form>
