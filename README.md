@@ -18,7 +18,7 @@ Follow these steps to build and run ASP.NET MVC example
 - Download and install [Microsoft SQL express 2014](http://www.microsoft.com/en-us/download/details.aspx?id=42299).
 - [Restore database](https://msdn.microsoft.com/en-us/library/ms177429.aspx) from `/Asp.net/shopping-cart-db.zip` archive.
 - Ensure that connection string in `/Asp.net/ShoppingCart/web.config` is correct.
-- Open `/Asp.name/ShoppingCart.sln` solution in [Visual Studio 2013](https://www.visualstudio.com/en-us/news/vs2013-community-vs.aspx).
+- Open `/Asp.name/ShoppingCart.sln` solution in [Visual Studio 2015](https://www.visualstudio.com/products/free-developer-offers-vs).
 - [Restore NuGet packages](http://stackoverflow.com/questions/26315756/enable-nuget-package-restore-on-visual-studio-2013).
 - Press `Ctrl + F5` to build and start application.
 - The application should start in your default browser. Open the URL in Google Chrome, if it is not your default browser.
