@@ -204,7 +204,6 @@
                     </div>
                 </form>
             </template>
-            <dom-bind-notifier observed-object="{{model}}" path="model" deep></dom-bind-notifier>
         </template>
         <script>
             (function () {
@@ -227,6 +226,6 @@
             })();
         </script>
     </div>
-    <puppet-client usewebsocket="false" ref="root"></puppet-client>
+    <puppet-client ref="root"></puppet-client>
 </body>
 </html>
