@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ShoppingCart.Models.OrderItem>
+
+@{
+    ViewBag.Title = "OrderDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("LogOut", "LogOut")
+<br />
+
+<h2>OrderDetails</h2>
+
+<p>
+        @if (ViewBag.Before == "ClientOrders") { 
+            @Html.ActionLink("Back to ClientOrders", "ClientOrders")
+        }
+        else if (ViewBag.Before == "MyOrdersToFulfill")
+        {
+            @Html.ActionLink("Back to MyOrdersToFulfill", "MyOrdersToFulfill")
+        }
+        else if (ViewBag.Before == "OpenedOrders")
+        {
+            @Html.ActionLink("Back to OpenedOrders", "OpenedOrders")
+        }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+    </tr>
+
+@{decimal total = 0;
+    foreach (var item in Model)
+    {
+        total += item.TotalAmount;
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+    </tr>
+
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            Total
+        </td>
+        <td></td>
+        <td></td>
+        <td>
+            @total.ToString()
+        </td>
+    </tr>
+}
+
+</table>

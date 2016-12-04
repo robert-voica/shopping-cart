@@ -1,0 +1,69 @@
+﻿@model IEnumerable<ShoppingCart.Models.Order>
+
+@{
+    ViewBag.Title = "MyOrdersToFulfill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ActionLink("LogOut", "LogOut")
+<br />
+
+<h2>MyOrdersToFulfill</h2>
+
+<p>
+    @Html.ActionLink("Opened Orders", "OpenedOrders")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserClientId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserCourierId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserClientId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserCourierId)
+        </td>
+        <td>
+            @Html.ActionLink("Chat", "Chat", new { id = item.Id, before = "MyOrdersToFulfill" })
+            |
+            @Html.ActionLink("Details", "OrderDetails", new { id=item.Id, before = "MyOrdersToFulfill" })
+            |
+            @Html.ActionLink("Untake", "UntakeOrder", new { id = item.Id }, new { onclick = "return confirm('Are you sure you wish to untake this order?');" })
+        </td>
+    </tr>
+}
+
+</table>

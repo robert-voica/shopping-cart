@@ -1,0 +1,58 @@
+﻿
+@model ShoppingCart.Models.User
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>SignUp</h2>
+    @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
+    {
+        <label>User Name</label>
+        <br />
+        @Html.TextBoxFor(m => m.UserName)
+        @Html.ValidationMessageFor(m => m.UserName)
+        <br />
+
+        <label>Password</label>
+        <br />
+        @Html.TextBoxFor(m => m.Password)
+        @Html.ValidationMessageFor(m => m.Password)
+        <br />
+
+        <label>Name</label>
+        <br />
+        @Html.TextBoxFor(m => m.Name)
+        @Html.ValidationMessageFor(m => m.Name)
+        <br />
+
+        <label>Address</label>
+        <br />
+        @Html.TextBoxFor(m => m.Address)
+        @Html.ValidationMessageFor(m => m.Address)
+        <br />
+
+        <label>Email</label>
+        <br />
+        @Html.TextBoxFor(m => m.Email)
+        @Html.ValidationMessageFor(m => m.Email)
+        <br />
+
+        <label>Phone</label>
+        <br />
+        @Html.TextBoxFor(m => m.Phone)
+        @Html.ValidationMessageFor(m => m.Phone)
+        <br />
+
+        <label>Check if you want to be a client</label>
+        <br />
+        @Html.CheckBoxFor(m => m.UserClient)
+        @Html.ValidationMessageFor(m => m.UserClient)
+        <br />
+
+        <input type="submit" value="SignUp" />
+    }
+    @Html.ActionLink("Back to Login", "Login")
+
+    <div>

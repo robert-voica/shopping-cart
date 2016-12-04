@@ -1,34 +1,13 @@
 ﻿@{
-    this.Layout = null;
+    ViewBag.Title = "Shober";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Shopping cart</title>
 
-    <!-- Object.observe & Array.observe shims for IE and FF -->
-    <script src="@Url.Content("~/sys/object.observe/dist/object-observe.js")"></script>
-    <script src="@Url.Content("~/sys/array.observe/array-observe.js")"></script>
-
-    <!-- WebComponents shim for IE and FF -->
-    <script src="@Url.Content("~/sys/webcomponentsjs/webcomponents.js")"></script>
-
-    <!-- Import Polymer library -->
-    <link rel="import" href="@Url.Content("~/sys/polymer/polymer.html")" />
-    <link rel="import" href="@Url.Content("~/sys/iron-ajax/iron-ajax.html")" />
-
-    <!-- sc-select custom element to workaround lack of dom-repeat support inside <select> under IE -->
-    <link rel="import" href="@Url.Content("~/Scripts/sc-select.html")" />
-
-    <!-- Default styles -->
-    <link rel="stylesheet" href="@Url.Content("~/Content/bootswatch/paper/bootstrap.min.css")" />
-
-    <!-- Local styles -->
-    <link rel="stylesheet" href="@Url.Content("~/Content/style.css")" />
-</head>
-<body>
     <script type="text/html" id="scrProducts">@Html.Raw(ViewBag.ProductsJson)</script>
     <div id="body">
+        @Html.ActionLink("LogOut", "LogOut")
+        <br/>
+        @Html.ActionLink("My Orders", "ClientOrders")
         <template is="dom-bind" id="root">
             <template is="dom-if" if="{{!model.OrderComplete}}">
                 <form class="form-horizontal">
@@ -44,7 +23,7 @@
                             <input type="text" value="{{model.Order.Date}}" class="form-control" readonly />
                         </div>
                     </div>
-                    <div class="form-group">
+                    @*<div class="form-group">
                         <label class="col-sm-2 control-label">Your name:</label>
                         <div class="col-sm-10">
                             <input type="text" value="{{model.Order.Customer::change}}" class="form-control" />
@@ -55,7 +34,7 @@
                         <div class="col-sm-10">
                             <input type="text" value="{{model.Order.Address::change}}" class="form-control" />
                         </div>
-                    </div>
+                    </div>*@
                     <div class="form-group">
                         <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
@@ -141,18 +120,6 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Your name:</label>
-                        <div class="col-sm-10">
-                            <input type="text" value="{{model.Order.Customer}}" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Shipping address:</label>
-                        <div class="col-sm-10">
-                            <input type="text" value="{{model.Order.Address}}" class="form-control" readonly />
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-2 control-label"></label>
                         <div class="col-sm-10">
                             <div class="table table-bordered table-stripped">
@@ -214,5 +181,3 @@
         </template>
         <script src="@Url.Content("~/Scripts/Views/Home/Index.js")"></script>
     </div>
-</body>
-</html>

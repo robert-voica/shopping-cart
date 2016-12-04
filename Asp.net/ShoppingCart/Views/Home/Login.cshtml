@@ -1,0 +1,25 @@
+﻿
+@model ShoppingCart.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h2>Login</h2>
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post)) {
+        <label>User Name</label>
+        <br />
+        @Html.TextBoxFor(m => m.UserName)
+
+        <br />
+
+        <label>Password</label>
+        <br />
+        @Html.PasswordFor(m => m.Password)
+
+        <input type="submit" value="Login" />
+    }
+    @Html.ActionLink("SignUp", "SignUp")
+
+<div>

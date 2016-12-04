@@ -27,6 +27,10 @@ namespace ShoppingCart.Models
 
         public decimal TotalAmount { get; set; }
 
+        public int? UserClientId { get; set; }
+        
+        public int? UserCourierId { get; set; }
+        
         public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

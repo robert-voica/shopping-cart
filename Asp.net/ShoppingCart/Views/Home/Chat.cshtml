@@ -1,0 +1,64 @@
+﻿@model IEnumerable<ShoppingCart.Models.Message>
+
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chat</h2>
+
+<p>
+    @if (ViewBag.Before == "ClientOrders")
+    {
+        @Html.ActionLink("Back to ClientOrders", "ClientOrders")
+    }
+    else if (ViewBag.Before == "MyOrdersToFulfill")
+    {
+        @Html.ActionLink("Back to MyOrdersToFulfill", "MyOrdersToFulfill")
+    }
+    else if (ViewBag.Before == "OpenedOrders")
+    {
+        @Html.ActionLink("Back to OpenedOrders", "OpenedOrders")
+    }
+</p>
+
+Send a new message:
+<br/>
+@using (Html.BeginForm("SendMessage", "Home", FormMethod.Post))
+{
+    <textarea name="content" style="border: solid 0.5px; width: 90%; height:100px"></textarea>
+    <input type="text" name="orderId" style="display:none" value="@ViewBag.OrderId"/>
+    <input type="text" name="before" style="display:none" value="@ViewBag.Before"/>
+
+    <input type="submit" value="Send" />
+}
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SendTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MessageContent)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SenderName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SendTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MessageContent)
+        </td>
+    </tr>
+}
+
+</table>
